@@ -1,7 +1,20 @@
 const state = {
-  navMode: "inline"
+  navMode: "inline",
+  navMenuList: [],
+  isDrawerVisible: false
 };
-const mutations = {};
+const mutations = {
+  setNavMode(state) {
+    if (state.navMode === "inline") {
+      state.navMode = "horizontal";
+    } else {
+      state.navMode = "inline";
+    }
+  },
+  setDrawerVisible(state) {
+    state.isDrawerVisible = !state.isDrawerVisible;
+  }
+};
 const actions = {};
 
 export default {

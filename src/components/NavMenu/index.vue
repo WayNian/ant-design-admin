@@ -1,5 +1,10 @@
 <template>
-  <a-menu theme="dark" :mode="inline" :defaultSelectedKeys="['1']">
+  <a-menu
+    theme="dark"
+    :style="style"
+    :mode="navMode"
+    :defaultSelectedKeys="['1']"
+  >
     <a-menu-item key="1">
       <a-icon type="user" />
       <span>nav 1</span>
@@ -16,7 +21,21 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+
+export default {
+  props: {
+    style: {
+      type: Object,
+      required: false
+    }
+  },
+  computed: {
+    ...mapState("setting", {
+      navMode: "navMode"
+    })
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>

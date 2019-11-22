@@ -7,20 +7,7 @@
       v-if="navMode === 'inline'"
     >
       <div class="logo" />
-      <a-menu theme="dark" :mode="navMode" :defaultSelectedKeys="['1']">
-        <a-menu-item key="1">
-          <a-icon type="user" />
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="video-camera" />
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <a-icon type="upload" />
-          <span>nav 3</span>
-        </a-menu-item>
-      </a-menu>
+      <nav-menu></nav-menu>
     </a-layout-sider>
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
@@ -30,26 +17,10 @@
           @click="() => (collapsed = !collapsed)"
           v-if="navMode === 'inline'"
         />
-        <a-menu
-          theme="dark"
-          :mode="navMode"
-          :defaultSelectedKeys="['1']"
+        <nav-menu
           :style="{ lineHeight: '64px', width: 'auto' }"
           v-if="navMode === 'horizontal'"
-        >
-          <a-menu-item key="1">
-            <a-icon type="user" />
-            <span>nav 1</span>
-          </a-menu-item>
-          <a-menu-item key="2">
-            <a-icon type="video-camera" />
-            <span>nav 2</span>
-          </a-menu-item>
-          <a-menu-item key="3">
-            <a-icon type="upload" />
-            <span>nav 3</span>
-          </a-menu-item>
-        </a-menu>
+        ></nav-menu>
       </a-layout-header>
       <a-layout-content
         :style="{
@@ -62,12 +33,19 @@
         <a-button type="primary" @click="changeNavMode">切换Menu模式</a-button>
       </a-layout-content>
     </a-layout>
+    <vue-drawer></vue-drawer>
   </a-layout>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import NavMenu from "@/components/NavMenu/";
+import VueDrawer from "@/components/Drawer/";
 export default {
+  components: {
+    NavMenu,
+    VueDrawer
+  },
   data() {
     return {
       collapsed: false
@@ -79,7 +57,11 @@ export default {
     })
   },
   methods: {
+    ...mapMutations("setting", {
+      setNavMode: "setNavMode"
+    }),
     changeNavMode() {
+      this.setNavMode();
       //   if (this.navMode === "inline") {
       //     this.navMode = "horizontal";
       //   } else {
