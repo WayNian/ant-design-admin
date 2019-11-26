@@ -2,20 +2,36 @@
   <div>
     <a-drawer
       width="300"
-      title="Basic Drawer"
+      title="功能设置"
       placement="right"
       :closable="false"
-      @close="onClose"
+      @close="setDrawerVisible"
       :visible="isDrawerVisible"
       :handle="handle"
     >
-      <div class="setting-drawer-layout"></div>
       <a-button
         type="primary"
         class="setting-drawer-visible"
         @click="setDrawerVisible"
         :icon="isDrawerVisible ? 'close' : 'setting'"
       ></a-button>
+      <div class="setting-drawer-layout">
+        <a-list :split="false">
+          <h3>左侧菜单栏颜色</h3>
+          <a-list-item>
+            <a-list-item-meta>
+              <div slot="title">主题色切换</div>
+            </a-list-item-meta>
+            <a-switch
+              size="small"
+              :defaultChecked="isSilderDark"
+              @change="setSilderDark"
+              checkedChildren="暗"
+              unCheckedChildren="亮"
+            />
+          </a-list-item>
+        </a-list>
+      </div>
     </a-drawer>
   </div>
 </template>
@@ -25,17 +41,19 @@ import { mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      handle: <div /> //  悬浮设置按钮的关键
+      handle: <div /> // 悬浮设置按钮的关键
     };
   },
   computed: {
     ...mapState("setting", {
-      isDrawerVisible: "isDrawerVisible"
+      isDrawerVisible: "isDrawerVisible",
+      isSilderDark: "isSilderDark"
     })
   },
   methods: {
     ...mapMutations("setting", {
-      setDrawerVisible: "setDrawerVisible"
+      setDrawerVisible: "setDrawerVisible", // 抽屉的开关
+      setSilderDark: "setSilderDark" // 菜单栏的颜色 暗/亮
     })
   }
 };

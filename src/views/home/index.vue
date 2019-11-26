@@ -4,23 +4,33 @@
       :trigger="null"
       collapsible
       v-model="collapsed"
-      v-if="navMode === 'inline'"
+      :class="{ 'ant-layout-sider-light': !isSilderDark }"
     >
       <div class="logo" />
       <nav-menu></nav-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0">
+      <a-layout-header
+        :class="[
+          navMode === 'horizontal' && isSilderDark
+            ? 'ant-layout-header-dark'
+            : ''
+        ]"
+      >
         <a-icon
           class="trigger"
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
           @click="() => (collapsed = !collapsed)"
-          v-if="navMode === 'inline'"
         />
-        <nav-menu
-          :style="{ lineHeight: '64px', width: 'auto' }"
-          v-if="navMode === 'horizontal'"
-        ></nav-menu>
+        <div class="header-layout">
+          <a-badge :count="9">
+            <a-icon type="notification" />
+          </a-badge>
+          <a-avatar
+            src="https://pic.superbed.cn/item/5d89c82d451253d1784eeb51.png"
+            class="ml-default"
+          />
+        </div>
       </a-layout-header>
       <a-layout-content
         :style="{
@@ -30,7 +40,7 @@
           minHeight: '280px'
         }"
       >
-        <a-button type="primary" @click="changeNavMode">切换Menu模式</a-button>
+        <router-view></router-view>
       </a-layout-content>
     </a-layout>
     <vue-drawer></vue-drawer>
@@ -53,27 +63,42 @@ export default {
   },
   computed: {
     ...mapState("setting", {
-      navMode: "navMode"
+      navMode: "navMode",
+      isSilderDark: "isSilderDark"
     })
   },
   methods: {
-    ...mapMutations("setting", {
-      setNavMode: "setNavMode"
-    }),
-    changeNavMode() {
-      this.setNavMode();
-      //   if (this.navMode === "inline") {
-      //     this.navMode = "horizontal";
-      //   } else {
-      //     this.navMode = "inline";
-      //   }
-    }
+    ...mapMutations("setting", {})
   }
 };
 </script>
-<style>
+<style lang="scss">
 .home-layout {
   min-height: 100%;
+  .ant-layout-sider {
+    transition: background-color 0.3s;
+  }
+  .ant-layout-sider-light {
+    background-color: #ffffff;
+  }
+  .ant-layout-header {
+    background: #fff;
+    display: flex;
+    transition: all 0.3s;
+  }
+  .header-layout {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .ant-badge {
+    font-size: 16px;
+  }
+  .ant-avatar-image {
+    width: 24px;
+    height: 24px;
+  }
 }
 #components-layout-demo-custom-trigger .trigger {
   font-size: 18px;
@@ -89,7 +114,7 @@ export default {
 
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
+  background: red;
   margin: 16px;
 }
 </style>

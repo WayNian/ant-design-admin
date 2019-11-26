@@ -1,8 +1,14 @@
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: () => import("../views/home/")
+    component: () => import("../views/home/"),
+    children: [
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        component: () => import("../views/dashboard/")
+      }
+    ]
   },
   {
     path: "/login",
