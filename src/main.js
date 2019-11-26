@@ -5,6 +5,7 @@ import "ant-design-vue/dist/antd.css";
 import router from "@/router";
 import store from "@/store";
 import i18n from "@/utils/i18n/"; //国际化
+import "@/utils/mock/"; //mockjs
 
 Vue.config.productionTip = false;
 Vue.use(Antd);

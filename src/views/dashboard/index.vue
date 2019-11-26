@@ -68,7 +68,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-
+import http from "@/utils/http/";
 const formItemLayout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 8 }
@@ -85,6 +85,14 @@ export default {
       formTailLayout,
       form: this.$form.createForm(this, { name: "dynamic_rule" })
     };
+  },
+  mounted() {
+    http
+      .post("/user/login")
+      .then(res => {
+        console.log("-->>", res);
+      })
+      .catch(() => {});
   },
   computed: {
     ...mapState("setting", {})

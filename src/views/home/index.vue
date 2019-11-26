@@ -6,17 +6,13 @@
       v-model="collapsed"
       :class="{ 'ant-layout-sider-light': !isSilderDark }"
     >
-      <div class="logo" />
+      <div class="logo" v-if="collapsed">W</div>
+      <div class="logo" v-if="!collapsed">WAYNIAN</div>
+
       <nav-menu></nav-menu>
     </a-layout-sider>
     <a-layout>
-      <a-layout-header
-        :class="[
-          navMode === 'horizontal' && isSilderDark
-            ? 'ant-layout-header-dark'
-            : ''
-        ]"
-      >
+      <a-layout-header>
         <a-icon
           class="trigger"
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
@@ -147,22 +143,24 @@ export default {
   .header-person {
     font-size: 14px;
   }
-}
-#components-layout-demo-custom-trigger .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  background: red;
-  margin: 16px;
+  .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+    &:hover {
+      color: #1890ff;
+    }
+  }
+  .logo {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 25px;
+  }
 }
 </style>
