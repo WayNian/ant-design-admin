@@ -23,13 +23,46 @@
           @click="() => (collapsed = !collapsed)"
         />
         <div class="header-layout">
-          <a-badge :count="9">
+          <a-dropdown placement="bottomCenter" :trigger="['click']">
+            <div>
+              <a-icon type="global" class="click" />
+            </div>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;" @click="changeLang('en')">ENglish</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;" @click="changeLang('zh_CN')"
+                  >中文(简体)</a
+                >
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;" @click="changeLang('ja_JP')">日本語</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+          <a-badge :count="9" class="ml-default">
             <a-icon type="notification" />
           </a-badge>
-          <a-avatar
-            src="https://pic.superbed.cn/item/5d89c82d451253d1784eeb51.png"
-            class="ml-default"
-          />
+          <a-dropdown placement="bottomRight" :trigger="['click']">
+            <div class="ml-default header-person click">
+              <a-avatar
+                src="https://pic.superbed.cn/item/5d89c82d451253d1784eeb51.png"
+              />
+              <span class="ml-small ">东方月初</span>
+            </div>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;">个人中心</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">系统设置</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">退出登录</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </div>
       </a-layout-header>
       <a-layout-content
@@ -49,6 +82,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import i18n from "@/utils/i18n/";
 import NavMenu from "@/components/NavMenu/";
 import VueDrawer from "@/components/Drawer/";
 export default {
@@ -64,11 +98,19 @@ export default {
   computed: {
     ...mapState("setting", {
       navMode: "navMode",
-      isSilderDark: "isSilderDark"
+      isSilderDark: "isSilderDark",
+      lang: "lang"
     })
   },
   methods: {
-    ...mapMutations("setting", {})
+    ...mapMutations("setting", {
+      setLang: "setLang"
+    }),
+    changeLang(type) {
+      if (type === this.lang) return;
+      i18n.locale = type;
+      this.setLang(type);
+    }
   }
 };
 </script>
@@ -95,9 +137,15 @@ export default {
   .ant-badge {
     font-size: 16px;
   }
+  .anticon-global {
+    font-size: 16px;
+  }
   .ant-avatar-image {
     width: 24px;
     height: 24px;
+  }
+  .header-person {
+    font-size: 14px;
   }
 }
 #components-layout-demo-custom-trigger .trigger {
