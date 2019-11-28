@@ -1,7 +1,14 @@
 <template>
   <div>
     <p>{{ $t("name") }}</p>
-
+    <div>
+      <a-button type="primary" @click="showModal">Open Modal</a-button>
+      <a-modal title="Basic Modal" v-model="visible" @ok="handleOk">
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </a-modal>
+    </div>
     <a-date-picker />
     <a-form :form="form">
       <a-form-item
@@ -80,6 +87,7 @@ const formTailLayout = {
 export default {
   data() {
     return {
+      visible: false,
       checkNick: false,
       formItemLayout,
       formTailLayout,
@@ -99,6 +107,13 @@ export default {
   },
   methods: {
     ...mapMutations("setting", {}),
+    showModal() {
+      this.visible = true;
+    },
+    handleOk(e) {
+      console.log(e);
+      this.visible = false;
+    },
     check() {
       this.form.validateFields(err => {
         if (!err) {

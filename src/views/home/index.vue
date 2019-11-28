@@ -6,8 +6,12 @@
       v-model="collapsed"
       :class="{ 'ant-layout-sider-light': !isSilderDark }"
     >
-      <div class="logo" v-if="collapsed">W</div>
-      <div class="logo" v-if="!collapsed">WAYNIAN</div>
+      <div :class="[isSilderDark ? '' : 'logo-dark', 'logo']" v-if="collapsed">
+        W
+      </div>
+      <div :class="[isSilderDark ? '' : 'logo-dark', 'logo']" v-if="!collapsed">
+        WAYNIAN
+      </div>
 
       <nav-menu></nav-menu>
     </a-layout-sider>
@@ -25,7 +29,7 @@
             </div>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a href="javascript:;" @click="changeLang('en')">ENglish</a>
+                <a href="javascript:;" @click="changeLang('en')">English</a>
               </a-menu-item>
               <a-menu-item>
                 <a href="javascript:;" @click="changeLang('zh_CN')"
@@ -55,7 +59,7 @@
                 <a href="javascript:;">系统设置</a>
               </a-menu-item>
               <a-menu-item>
-                <a href="javascript:;">退出登录</a>
+                <a href="javascript:;" @click="logout">退出登录</a>
               </a-menu-item>
             </a-menu>
           </a-dropdown>
@@ -77,7 +81,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import i18n from "@/utils/i18n/";
 import NavMenu from "@/components/NavMenu/";
 import VueDrawer from "@/components/Drawer/";
@@ -102,6 +106,17 @@ export default {
     ...mapMutations("setting", {
       setLang: "setLang"
     }),
+    ...mapActions("auth", {
+      logoutHttp: "logout"
+    }),
+    logout() {
+      this.logoutHttp().then(() => {
+        console.log(this);
+
+        this.$router.replace("/login");
+        window.localStorage.setItem("token", null);
+      });
+    },
     changeLang(type) {
       if (type === this.lang) return;
       i18n.locale = type;
@@ -161,6 +176,10 @@ export default {
     color: #fff;
     font-weight: 700;
     font-size: 25px;
+    transition: color 0.3s;
+  }
+  .logo-dark {
+    color: #001529;
   }
 }
 </style>
