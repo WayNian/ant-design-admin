@@ -41,7 +41,24 @@ const state = {
     {
       name: "固件升级",
       icon: "el-icon-menu",
-      path: "/firmware"
+      child: [
+        {
+          path: "/manage/hospital3",
+          name: "医院管理"
+        },
+        {
+          path: "/manage/department4",
+          name: "部门管理"
+        },
+        {
+          path: "/manage/user5",
+          name: "用户管理"
+        },
+        {
+          path: "/manage/role6",
+          name: "角色管理"
+        }
+      ]
     },
     {
       name: "更多扩展",
@@ -53,7 +70,8 @@ const state = {
       icon: "el-icon-menu",
       path: "/support"
     }
-  ]
+  ],
+  subpageList: []
 };
 const mutations = {
   setSilderDark(state, data) {
@@ -61,9 +79,12 @@ const mutations = {
   },
   setMenuList(state, data) {
     state.menuList = data;
-    //  window.localStorage.getItem("menuList")
+  },
+  setSubpageList(state, data) {
+    state.subpageList = data;
   }
 };
+
 const actions = {
   login({ commit }, params) {
     return new Promise((resolve, reject) => {
@@ -104,6 +125,24 @@ const actions = {
         .catch(() => {
           reject();
         });
+    });
+  },
+  // eslint-disable-next-line no-empty-pattern
+  getPermissionList({}) {
+    return new Promise(resolve => {
+      let permissionList = [];
+      const flatNavList = arr => {
+        for (let v of arr) {
+          if (v.child && v.child.length) {
+            flatNavList(v.child);
+          } else {
+            permissionList.push(v);
+          }
+        }
+      };
+      flatNavList(state.menuList);
+      flatNavList(state.subpageList);
+      resolve(permissionList);
     });
   }
 };

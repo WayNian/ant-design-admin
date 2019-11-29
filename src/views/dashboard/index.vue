@@ -10,6 +10,23 @@
       </a-modal>
     </div>
     <a-date-picker />
+    <div>
+      <a-select
+        mode="multiple"
+        placeholder="Please select"
+        :defaultValue="[0, 3, 5]"
+        style="width: 200px"
+      >
+        <a-select-option
+          v-for="(item, index) in 25"
+          :key="(item + 9).toString(36) + item"
+          :value="index"
+        >
+          {{ (item + 9).toString(36) + item }}
+        </a-select-option>
+      </a-select>
+    </div>
+
     <a-form :form="form">
       <a-form-item
         :label-col="formItemLayout.labelCol"
